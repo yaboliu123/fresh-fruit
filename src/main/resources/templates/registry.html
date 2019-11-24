@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>注册</title>
+    <link rel="icon" href="./img/panda.png">
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /*background: #494A5F;*/
+            font-weight: 500;
+            font-family: "Microsoft YaHei","宋体","Segoe UI", "Lucida Grande", Helvetica, Arial,sans-serif, FreeSans, Arimo;
+        }
+
+        #container {
+            width: 300px;
+            height: 100%;
+            margin-top: 100px;
+            padding-top: 200px;
+            padding-left: 10px;
+            align-content: center;
+            display: flex;
+        }
+
+        form.registry-form {
+            position: relative;
+            width: 100%;
+            align: center;
+            margin: 0 auto;
+        }
+
+        button.registryButton {
+            position: relative;
+            padding-left: 13px;
+            height: 42px;
+            width: 20%;
+            align-content: center;
+            font-size: 15px;
+            color: black;
+            cursor: pointer;
+            background: #F9F0DA;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h4 th:inline="text"><a th:href="@{/login}">返回登录界面</a></h4>
+    <div th:if="${registryInfo!=null and !registryInfo.isEmpty()}" style="color: red;">
+        <h5 th:inline="text" th:text="${registryInfo}"></h5>
+    </div>
+    <div>
+        <form id="registry-form" th:action="@{/registry}" th:object="${userRegistry}" method="post" role="form">
+            <div class="form-group" th:if="${error}" align="center">
+                <h4 th:inline="text" th:text="${error}"></h4>
+            </div>
+            <div class="form-group">
+                <input type="text" name="username" th:field="*{username}" tabindex="1" class="form-control" placeholder="用户名（必填）" value="">
+            </div>
+            <div class="form-group">
+                <input type="text" name="phonenumber" th:field="*{phonenumber}" tabindex="2" class="form-control" placeholder="手机号码（必填）" value="">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" th:field="*{password}" tabindex="3" class="form-control" placeholder="密码（必填）" value="">
+            </div>
+            <div class="form-group">
+                <input type="password" name="confirm_password" th:field="*{confirm_password}" tabindex="4" class="form-control" placeholder="确认密码（必填）" value="">
+            </div>
+            <div class="form-group">
+                <input type="idcard" name="idcard" th:field="*{idCard}" tabindex="5" class="form-control" placeholder="身份证（可选）" value="" >
+            </div>
+            <div class="registryContainer">
+                <button class="registryButton" type="submit" value="注册">注册</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script type="application/javascript" src="scripts/directive/directive.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script language="JavaScript" type="text/JavaScript" src="js/jquery.form.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script>
+    jQuery.validator.setDefaults({
+        debug: true,
+        success: "valid",
+        submitHandler: function(form) { form.submit(); }
+    });
+
+    jQuery.validator.addMethod("isPhone", function(value, element){
+        var length = value.length;
+        return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/.test(value));
+    }, "请输入正确的手机号");
+
+    $("#registry-form").validate({
+        rules:{
+            username: {
+                required:true,
+                minlength:4,
+                maxlength:18
+            },
+            phonenumber: {
+                required: true,
+                isPhone: true
+            },
+            password: {
+                required:true,
+                minlength:6
+            },
+            confirm_password: {
+                required:true,
+                minlength:6,
+                equalTo:"#password"
+            },
+            idcard: {
+                minlength:18,
+                maxlength:18
+            }
+        },
+        messages: {
+            username:{
+                required:"请输入用户名",
+                minlength:"用户名必需由两个字母组成",
+                maxlength:"用户名长度不能超过18"
+            },
+            phonenumber: {
+                required: "请输入手机号码",
+                isPhone: "请输入正确的手机号"
+            },
+            password:{
+                required: "请输入用户密码",
+                minlength: "密码长度必须超过6"
+            },
+            confirm_password:{
+                required: "请再次输入用户密码",
+                minlength: "密码长度必须超过6",
+                equalTo: "两次密码输入不一致"
+            },
+            idcard:{
+                minlength:"身份证长度不对",
+                maxlength:"身份证长度不对"
+            }
+        }
+    });
+    $("#registry-form").submit(function(){
+        $(this).ajaxSubmit({
+            type:"post",
+            beforeSubmit:showRequest,
+            success:showResponse
+        });
+        return false;
+    });
+    $( "registryButton" ).click(function() {
+        alert( "Valid: " + form.valid() );
+    });
+
+</script>
+</body>
+</html>

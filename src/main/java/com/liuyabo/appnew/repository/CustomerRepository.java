@@ -1,6 +1,5 @@
 package com.liuyabo.appnew.repository;
 
-import com.liuyabo.appnew.entity.Boss;
 import com.liuyabo.appnew.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

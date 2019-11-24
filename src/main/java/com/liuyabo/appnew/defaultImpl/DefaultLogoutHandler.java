@@ -12,7 +12,7 @@ public class DefaultLogoutHandler implements LogoutHandler {
   @Override
   public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
     try {
-      httpServletResponse.sendRedirect("/");
+      httpServletResponse.sendRedirect("/longin.html");
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

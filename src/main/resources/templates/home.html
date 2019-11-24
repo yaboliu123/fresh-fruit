@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>Stock主页</title>
+    <title>主页</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,20 +12,24 @@
         body {
             margin: 0;
             padding: 0;
-            /*background: #494A5F;*/
+            background: #F7F7F7;
             font-weight: 500;
             font-family: "Microsoft YaHei","宋体","Segoe UI", "Lucida Grande", Helvetica, Arial,sans-serif, FreeSans, Arimo;
         }
 
         #container {
-            width: 500px;
-            height: 820px;
+            width: 100%;
+            height: 100%;
             margin: auto;
-            padding: 100px 0;
+            padding-top: 10px;
+            padding-left: 10px;
+            align-content: center;
         }
 
-        div.search {
+        div.fruitsSearch {
             padding: 10px 0;
+            display: flex;
+            width: 100%;
         }
 
         form.searchForm {
@@ -34,17 +38,26 @@
             margin: 0 auto;
         }
 
+        div.headerDiv {
+            position: relative;
+            width: 100%;
+            align: center;
+            margin: 0 auto;
+            display: flex;
+        }
+
         input.textBox, button.searchButton {
             border: none;
             outline: none;
         }
 
         input.textBox {
-            width: 100%;
+            width: 60%;
             height: 42px;
-            padding-left: 13px;
+            padding-right: 13px;
             border: 2px solid #c5464a;
             border-radius: 5px;
+            font-size: 15px;
             background: transparent;
             top: 0;
             right: 0;
@@ -52,10 +65,9 @@
 
         button.searchButton {
             position: relative;
-            left: 25%;
+            padding-left: 13px;
             height: 42px;
-            width: 50%;
-            margin-top: 10px;
+            width: 20%;
             align-content: center;
             font-size: 15px;
             color: black;
@@ -63,24 +75,64 @@
             background: #F9F0DA;
             border-radius: 5px;
         }
+
+        button.addButton {
+            position: relative;
+            height: 42px;
+            width: 100px;
+            align-content: center;
+            font-size: 15px;
+            color: black;
+            cursor: pointer;
+            background: #F9F0DA;
+            border-radius: 5px;
+        }
+
+        input.logoutButton {
+            position: relative;
+            height: 42px;
+            width: 100px;
+            align-content: center;
+            font-size: 15px;
+            color: black;
+            cursor: pointer;
+            background: yellow;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
 <body>
-    <div id="container">
-        <div>
-            <form class="searchForm" action="#" th:action="@{/signin}" method="post">
-                <div class="radio" align="center">
-                    <input type="radio" value="All" checked> 所有 &nbsp;&nbsp;&nbsp;
-                    <input type="radio" value="Concept"> 概念 &nbsp;&nbsp;&nbsp;
-                    <input type="radio" value="Stock"> 股票 <br/>
-                </div>
-                <div class="search">
-                    <input class="textBox" type="text" placeholder="请输入概念/行业/股票">
-                    <button class="searchButton" type="submit" value="搜索">搜索</button>
-                </div>
-            </form>
-        </div>
+<div id="container">
+    <h1 th:inline="text">欢迎回来 [[${#httpServletRequest.remoteUser}]]! <a th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')}">time</a></h1>
+    <div class="headerDiv">
+        <form class="fruitForm" th:action="@{/registry}" method="post">
+            <button class="addButton" type="submit" value="新用户">新用户</button>
+        </form>
+        <form class="fruitForm" th:action="@{/logout}" method="post">
+            <input class="logoutButton" type="submit" value="退出"/>
+        </form>
     </div>
+    <div>
+        <form class="fruitForm" action="#" th:action="@{/home}" th:object="${searchEntity}" method="post">
+            <div class="fruitsSearch">
+                <input class="textBox" type="text" th:field="*{searchText}" placeholder="请输入用户名或手机号">
+                <button class="searchButton" type="submit" value="搜索">搜索</button>
+            </div>
+        </form>
+    </div>
+    <div th:if="${suggests!=null and !suggests.isEmpty()}">
+        <table border="0" width="100%">
+            <tr>
+                <th>您搜索的用户不存在?</th>
+            </tr>
+            <tr th:each="suggest : ${suggests}" align="center">
+                <td>
+                    <a th:text="${suggest}" th:href="@{|/home/${suggest}|}">概念</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 </html>

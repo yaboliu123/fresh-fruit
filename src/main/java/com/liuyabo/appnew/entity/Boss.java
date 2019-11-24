@@ -1,8 +1,11 @@
 package com.liuyabo.appnew.entity;
 
+import com.liuyabo.appnew.model.UserRegistry;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,5 +33,18 @@ public class Boss implements Serializable {
         userInfo.setName(this.getBossName());
         userInfo.setUserId(String.valueOf(this.getId()));
         return userInfo;
+    }
+
+    public Boss fromUserRegistry(final UserRegistry user) {
+        Boss boss = new Boss();
+        boss.setBossName(user.getUsername());
+        boss.setPhone(user.getPhonenumber());
+        Date now = new Date(System.currentTimeMillis());
+        boss.setCreatedTime(now);
+        boss.setLastModifiedBy(user.getUsername());
+        boss.setLastModifiedTime(now);
+        boss.setAddress("");
+        boss.setStatus("ACTIVE");
+        return boss;
     }
 }

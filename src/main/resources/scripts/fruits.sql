@@ -64,3 +64,4 @@ CREATE TABLE `Authorities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 
 --INSERT into `Authorities` (`Username`, `Authority`) values("admin", "ROLE_user")
+--insert into Users (Username, Password, Email, Enabled) values('admin','$2a$10$7r20uS.BQ9uBpf3Baj3uQOZvMVvB1RN3PYoKE94gtz2.WAOuiiwXS', 'admin@123.com', 1);
