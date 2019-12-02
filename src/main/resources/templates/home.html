@@ -2,7 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>主页</title>
     <style>
         * {
@@ -21,8 +24,6 @@
             width: 100%;
             height: 100%;
             margin: auto;
-            padding-top: 10px;
-            padding-left: 10px;
             align-content: center;
         }
 
@@ -87,39 +88,27 @@
             background: #F9F0DA;
             border-radius: 5px;
         }
-
-        input.logoutButton {
-            position: relative;
-            height: 42px;
-            width: 100px;
-            align-content: center;
-            font-size: 15px;
-            color: black;
-            cursor: pointer;
-            background: yellow;
-            border-radius: 5px;
-        }
     </style>
 </head>
 
 <body>
+<div></div>
 <div id="container">
-    <h1 th:inline="text">欢迎回来 [[${#httpServletRequest.remoteUser}]]! <a th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')}">time</a></h1>
-    <div class="headerDiv">
-        <form class="fruitForm" th:action="@{/registry}" method="post">
-            <button class="addButton" type="submit" value="新用户">新用户</button>
-        </form>
-        <form class="fruitForm" th:action="@{/logout}" method="post">
-            <input class="logoutButton" type="submit" value="退出"/>
-        </form>
+    <div th:replace="header :: header">
+
     </div>
     <div>
-        <form class="fruitForm" action="#" th:action="@{/home}" th:object="${searchEntity}" method="post">
-            <div class="fruitsSearch">
-                <input class="textBox" type="text" th:field="*{searchText}" placeholder="请输入用户名或手机号">
-                <button class="searchButton" type="submit" value="搜索">搜索</button>
-            </div>
-        </form>
+        <table id="realTime_Table" data-click-to-select="true" class="table table-bordered" data-page-size="20">
+            <thead>
+            <tr >
+                <th data-sortable="true" data-field="realTimeDate">日期</th>
+                <th data-sortable="true" data-field="newPlayerNum">新增用户</th>
+                <th data-sortable="true" data-field="activePlayerNum">活跃用户</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
     <div th:if="${suggests!=null and !suggests.isEmpty()}">
         <table border="0" width="100%">
@@ -133,6 +122,38 @@
             </tr>
         </table>
     </div>
+    <div th:insert="~{foot :: footer}">...</div>
 </div>
+<script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js" integrity="sha384-L2pyEeut/H3mtgCBaUNw7KWzp5n9+4pDQiExs933/5QfaTh8YStYFFkOzSoXjlTb" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+    $("#realTime_Table").bootstrapTable("destroy");
+    $("#realTime_Table").bootstrapTable({
+  	  search: true,
+      pagination: false,
+      pageSize: 15,
+      pageList: [5, 10, 15, 20],
+      showColumns: true,
+      showRefresh: true,
+      showHeader: true,
+      showLoading: true,
+      showToggle: true,
+      locale: "zh-CN",
+      striped: true,
+      showFullscreen: true,
+      toolbar: '#toolbar',
+      pagination: true,
+      pageNumber: 1,
+      pageSize: 10,
+      pageList: [2, 5, 10, 15],
+      search: true,
+      strictSearch: true,
+      uniqueId: "ID",
+      showToggle: true
+
+    });
+</script>
 </body>
 </html>

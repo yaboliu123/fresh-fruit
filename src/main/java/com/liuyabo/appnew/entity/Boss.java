@@ -4,8 +4,6 @@ import com.liuyabo.appnew.model.UserRegistry;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.io.Serializable;

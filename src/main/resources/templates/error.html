@@ -8,7 +8,8 @@
 
 <body>
 <div>
-    <a href="/" th:text="${msg}">输入的股票或概念不存在，返回搜索页面</a>
+    <a href="/" th:text="${param.error}"></a>
+    <h4 th:inline="text" >新用户注册</h4>
 </div>
 </body>
 </html>

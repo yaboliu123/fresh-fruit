@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>注册</title>
     <link rel="icon" href="./img/panda.png">
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         * {
             box-sizing: border-box;
@@ -31,36 +31,29 @@
             display: flex;
         }
 
+        div.form-group {
+            position: relative;
+            width: 50%;
+            align: center;
+            margin: 5px auto;
+        }
         form.registry-form {
             position: relative;
             width: 100%;
             align: center;
             margin: 0 auto;
         }
-
-        button.registryButton {
-            position: relative;
-            padding-left: 13px;
-            height: 42px;
-            width: 20%;
-            align-content: center;
-            font-size: 15px;
-            color: black;
-            cursor: pointer;
-            background: #F9F0DA;
-            border-radius: 5px;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h4 th:inline="text"><a th:href="@{/login}">返回登录界面</a></h4>
-    <div th:if="${registryInfo!=null and !registryInfo.isEmpty()}" style="color: red;">
-        <h5 th:inline="text" th:text="${registryInfo}"></h5>
-    </div>
     <div>
         <form id="registry-form" th:action="@{/registry}" th:object="${userRegistry}" method="post" role="form">
+            <h4 th:inline="text" >新用户注册</h4>
+            <div th:if="${registryInfo!=null and !registryInfo.isEmpty()}" style="color: red;">
+                <h5 th:inline="text" th:text="${registryInfo}"></h5>
+            </div>
             <div class="form-group" th:if="${error}" align="center">
                 <h4 th:inline="text" th:text="${error}"></h4>
             </div>
@@ -79,19 +72,29 @@
             <div class="form-group">
                 <input type="idcard" name="idcard" th:field="*{idCard}" tabindex="5" class="form-control" placeholder="身份证（可选）" value="" >
             </div>
-            <div class="registryContainer">
-                <button class="registryButton" type="submit" value="注册">注册</button>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col">
+                        <a th:href="@{/login}" class="btn btn-info" style="width: 100%;"/>返回登录</a>
+                    </div>
+                    <div class="col">
+                        <button id="registryButton" type="submit" value="注册" class="btn btn-primary" style="width: 100%;">注册</button>
+                    </div>
+                </div>
+
             </div>
 
         </form>
     </div>
 </div>
+<script   src="https://code.jquery.com/jquery-3.4.1.js"   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="   crossorigin="anonymous"></script>
 
-<script type="application/javascript" src="scripts/directive/directive.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script language="JavaScript" type="text/JavaScript" src="js/jquery.form.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js" integrity="sha384-L2pyEeut/H3mtgCBaUNw7KWzp5n9+4pDQiExs933/5QfaTh8YStYFFkOzSoXjlTb" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <script>
     jQuery.validator.setDefaults({
         debug: true,
@@ -162,7 +165,7 @@
         });
         return false;
     });
-    $( "registryButton" ).click(function() {
+    $("#registryButton").click(function() {
         alert( "Valid: " + form.valid() );
     });
 

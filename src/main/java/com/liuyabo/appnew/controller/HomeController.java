@@ -3,7 +3,6 @@ package com.liuyabo.appnew.controller;
 import com.liuyabo.appnew.model.SearchEntity;
 import com.liuyabo.appnew.model.UserRegistry;
 import com.liuyabo.appnew.service.BossRegistryService;
-import com.sun.deploy.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
